@@ -1,0 +1,88 @@
+1. projekt létrehozása -> ASP.NET Core Web API
+
+2. nuget link hozzáadása -> https://api.nuget.org/v3/index.json
+
+3. packagek hozzáadása -> 
+	- Microsoft.EntityFrameworkCore (9.0.4)
+	- Microsoft.EntityFrameworkCore.Design (9.0.4)
+	- Microsoft.EntityFrameworkCore.Sqlite (9.0.4)
+	- Microsoft.EntityFrameworkCore.Tools (9.0.4)
+	- Microsoft.VisualStudio.Web.CodeGeneration.Design (8.0.7)
+	- Swashbuckle.AspNetCore (6.6.2)
+
+4. models-ek létrehozása: Models/Rövidebb.cs, Hosszabb.cs->
+	- összekötések a models-ekben:
+
+		-Rövidebb.cs(id-hoz -> [Key]): 
+				[JsonIgnore]
+				public List<Hosszabb>? hosszabbok { get; set; }
+
+		-Hosszabb.cs(id-hoz -> [Key]): 
+				public int RövidebbId { get; set; }
+				[JsonIgnore]
+				[ForeignKey("RövidebbId")]
+				public Rövidebb? Rövidebb { get; set; }
+
+5. Program.cs-be hozzáadjuk ezt a var app = builder.Build(); felé:
+			- builder.Services.AddDbContext<AppDbContext>(options =>
+			  {
+    				options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+			  });
+
+6. appsettings.json-be hozzáadjuk ezt:
+			- "ConnectionStrings": {
+    				"DefaultConnection": "Data Source = Sqlite.db"
+			  },
+
+5. AppDbContext létrehozása: Data/AppDbContext.cs->
+	- AppDbContext : DbContext -> itt hozzáadjuk, amit kér a program hogy észlelje a DbContextet
+	- public AppDbContext (DbContextOptions<AppDbContext> options) : base(options){ } -> ezt hozzá adjuk a public class AppDbContext : DbContext-be
+	- aztán hozzáadjuk a táblákat : public DbSet<Hosszabb> Hosszabbak { get; set; }  public DbSet<Rövidebb> Rövidebbek { get; set; } -> ezt hozzá adjuk a public class AppDbContext : DbContext-be
+
+6. ezután létre hozzuk az adatbázist ->
+	- migration: Add-Migration Init
+	- database: Update-Database
+
+7. ezek után legeneráljuk a Controllereket, amiben néha szokott probléma előfordulni. 
+Ilyenkor általába a package verzió ütközés van. 
+-> Controllerek generálása(mindkettonek: Rövidebb.cs, Hosszabb.cs):
+			- Controller mappára jobb klikk
+			- Add
+			- Controller
+			- API
+			- API Controller with actions, using Entity Framework
+			- aztán kiválasztod akívánt modelt és beírod a controller nevét 
+							és legenerálja neki a controllert
+
+8. ezután a HosszabbokController.cs-ben ->
+	- átkell írni mindkettő get-nek a response-át
+	- ezt ugy tesszük, hogy:
+			- public async Task<ActionResult<IEnumerable<Hosszabb>>> GetHosszabb() ->átírjuk a <Hosszabb>>>-at -> Object-re
+			- ezután megírjuk az anonym visszatérési értéket ->
+								|get|: 
+								return await _context.Hosszabbok.Include(i => i.Rovidebb).Select(item =>
+								new
+								{
+   		 						 ide szépen beírjuk egyesével őket -> pl.: asd = item.asd.ToString("yyyy-MM-dd"),
+								}
+								).ToListAsync();
+
+								|get/id|:
+								var item = await _context.Hosszabbak.Include(i => i.Rövidebb).Where(i => i.Id == id).Select(i => 
+								new
+								{
+    								 ide ugyan azt írjuk, amit a sima get-be csak item helyett i-t írunk az a adatoknál	
+								})
+								.FirstOrDefaultAsync();
+
+								if (item == null)
+								{
+    									return NotFound();
+								}
+
+								return item;
+
+9. Ezután a feladatalapján teszteljük a kérendő api hívásokat POSTMAN-ben.
+	 
+
+
