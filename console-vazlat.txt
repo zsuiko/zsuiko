@@ -1,0 +1,17 @@
+ 
+BEOLVASAS
+StreamReader sw = new StreamReader("Muzeim.csv");
+ List<Muzeum> adatok = new List<Muzeum>();
+ sw.ReadLine();
+ while(!sw.EndOfStream)
+ {
+     string[] sor = sw.ReadLine().Split(";");
+     Muzeum adat = new Muzeum();
+     adat.TeremAZ = sor[0];
+     adat.MuveszNev = sor[1];
+     adat.AlkotasNev = sor[2];
+     adat.Tipus = sor[3];
+     adatok.Add(adat);
+
+ }
+ sw.Close();

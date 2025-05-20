@@ -1,0 +1,36 @@
+
+
+az egyedül álló sr.ReadLine();-t a while cikluson kívül kell rakni
+
+a listát a kivulre kellrakni h elérhető legyen más voidból is
+
+
+LISTVIEW-HOZ ADATOK ADÁSA
+var lvi = new ListViewItem(adat.valami.ToString());
+lvi.SubItems.Add(adat.valami.ToString());
+listView1.Items.Add(lvi);
+
+FÁJLBA KIIRAS PL LISTBOX ALAPJÁN
+StreamWriter sw = new StreamWriter("valami.txt");
+foreach (var item in listBox1.Items)
+{
+    sw.WriteLine(item.ToString());
+}
+sw.Close();
+
+
+
+textBox1.Text -> változo létrehozásánál
+textBox1.Items -> foreach (var item in listBox1.Items)  listBox1.Items.Add(item.valami);
+
+
+
+
+KILÉPÉS GOMB
+DialogResult
+valasz
+=
+MessageBox.Show("szöveg", "szöveg", MessageBoxButton.YesNo)
+
+if(valasz == DialogResult.Yes)
+Application.Exit();
