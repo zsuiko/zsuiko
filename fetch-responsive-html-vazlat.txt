@@ -75,37 +75,6 @@ Bootstrap-ben az értékek 0-tól 5-ig terjednek, és ezek nem pixelben, hanem r
 
 
 
-let valalmi tobb
-uj aszinkron funkcio eleres()
-let vm1=varja meg az elerest (link)
-let vm2=varja meg a valasztjsonkent
-valami tomb=vm2
-kiir funkcio(vm2)(kesobb)
-
-
-
-window.onload eleres;
-
-bootsrap ha harom egyenlo 
-container fluid osztaly
-row osztaly
-col-md-4 section
-col-md-4 section
-col-md-4 section
-funkcio kiir()
-let vm3=html id
-vm3 belso html =""
-vm2re foreach hogz kiird az adatokat
-
-let valami4= `formazas` a foreachebn felvett adaokat ird ki a dollarjellel hasznalhatod a logikai operatorokat ha kell
-v3 belo htmlhez add hozza a valami4et
-
-kepek responsivitÃ¡sa img fluid osztalyal
-
-funkcio szures()
-let vm5=a a bekert adatal(html tetejen egy input tipus onkeyn a funkcio
-let vm6=valami tomb.szures(valtozo=valtozo.tulajdonsag ==vagy mas syoveg vizsgalat
-kiir(vm6)
 
 
 
